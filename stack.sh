@@ -250,8 +250,9 @@ failovermethod=priority
 enabled=0
 gpgcheck=0
 EOF
-    # bare yum call due to --enablerepo
-    sudo yum --enablerepo=epel-bootstrap -y install epel-release || \
+    # temporarily enable a bootstrap repo
+    sudo yum-config-manager --enable epel-bootstrap
+    yum_install epel-release || \
         die $LINENO "Error installing EPEL repo, cannot continue"
     # epel rpm has installed it's version
     sudo rm -f /etc/yum.repos.d/epel-bootstrap.repo
